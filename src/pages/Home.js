@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Service from "../services/postService";
-import PostCard from "../components/post-card";
-import { PostModal } from "../components/post-modal";
+import Service from "../services/service";
+import PostCard from "../components/PostCard";
+import { PostModal } from "../components/PostModal";
 
 export const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -16,7 +16,7 @@ export const Home = () => {
 
   useEffect(() => {
     getAllPosts();
-  });
+  }, []);
 
   const handleModalOpen = (post) => {
     setSelectedPost(post);
@@ -49,7 +49,6 @@ export const Home = () => {
           </div>
         ))}
       </div>
-      <div> 1 2 3</div>
     </div>
   );
 };
