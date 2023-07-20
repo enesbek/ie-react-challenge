@@ -6,6 +6,7 @@ import { PostModal } from "../components/post-modal";
 export const Home = () => {
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   const getAllPosts = async () => {
     const response = await Service.GetAllPosts();
@@ -15,30 +16,40 @@ export const Home = () => {
 
   useEffect(() => {
     getAllPosts();
-  }, []);
+  });
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (post) => {
+    setSelectedPost(post);
     setShowModal(true);
   };
+
   const handleModalClose = () => {
     setShowModal(false);
   };
+
   return (
-    <div className="flex items-center flex-col border border-2-black gap-10 pt-10">
-      {showModal ? (
+    <div>
+      {showModal && selectedPost ? (
         <>
-          <PostModal isOpen={showModal} onClose={handleModalClose} />
+          <PostModal
+            isOpen={showModal}
+            onClose={handleModalClose}
+            post={selectedPost}
+          />
           <div
             className="opacity-25 fixed inset-0 z-40 bg-black"
             onClick={() => setShowModal(false)}
           ></div>
         </>
       ) : null}
-      {posts.map((post) => (
-        <div onClick={handleModalOpen}>
-          <PostCard title={post.title} description={post.body} />
-        </div>
-      ))}
+      <div className="grid items-center grid-cols-2 border border-2-black gap-10 pt-10 p-10">
+        {posts.map((post, index) => (
+          <div key={index} onClick={() => handleModalOpen(post)}>
+            <PostCard title={post.title} />
+          </div>
+        ))}
+      </div>
+      <div> 1 2 3</div>
     </div>
   );
 };
